@@ -71,14 +71,9 @@ int main()
     double total_test;
     int epochs = 1000;
 
-    int train_pred[10], test_pred[10], train_actual[10], test_actual[10];
     // training
     for (int i = 0; i < epochs; i++)
     {
-        memset(train_pred, 0, sizeof(train_pred));
-        memset(train_actual, 0, sizeof(train_actual));
-        memset(test_pred, 0, sizeof(test_pred));
-        memset(test_actual, 0, sizeof(test_actual));
         MSE = 0.0;
         correct_train = 0.0;
         total_train = 0.0;
@@ -89,26 +84,10 @@ int main()
             int lab = distance(op.begin(), max_element(op.begin(), op.end()));
             if(lab == (int)label_train[j])
                 correct_train++;
-            train_pred[lab]++;
-            train_actual[(int)label_train[j]]++;
-            /*else
-            {
-                for(int k = 0; k < op.size(); k++)
-                    cout<<op[k]<<" ";
-                cout<<"\n";
-                cout<<lab<<" "<<(int)label_train[j]<<"\n";
-            }*/
             total_train++;
             if(j%100==0)
                 cout<<"MSE: "<<MSE<<" Training accuracy: "<<100.0*(correct_train/total_train)<<"%\r";
         }
-        cout<<"Train stats:\nActual distribution: ";
-        for(int j = 0; j < 10; j++)
-            cout<<train_actual[j]<<" ";
-        cout<<"\nPredicted distribution: ";
-        for(int j = 0; j < 10; j++)
-            cout<<train_pred[j]<<" ";
-        cout<<"\n";
         MSE = MSE / (double)input_train.size();
         correct_test = 0.0;
         total_test = 0.0;
@@ -119,38 +98,11 @@ int main()
             if(lab == (int)label_test[j])
                 correct_test++;
             total_test++;
-            test_pred[lab]++;
-            test_actual[(int)label_test[j]]++;
             if(j%100==0)
                 cout<<"Testing accuracy: "<<100.0*(correct_test/total_test)<<"%\r";
         }
-        /*if (i % 50 == 0)
-        {
-            cout<<"MSE = "<<MSE<<"\n";
-            cout<<"Accuracy = "<<100.0*(correct/total)<<"%\n";
-        }*/
-        cout<<"\nTest stats:\nActual distribution: ";
-        for(int j = 0; j < 10; j++)
-            cout<<test_actual[j]<<" ";
-        cout<<"\nPredicted distribution: ";
-        for(int j = 0; j < 10; j++)
-            cout<<test_pred[j]<<" ";
-        cout<<"\n";
         cout<<"Epoch: "<<i+1<<" MSE: "<<MSE<<" Training accuracy: "<<100.0*(correct_train/total_train)<<"% Test accuracy: "<<100.0*(correct_test/total_test)<<"%\n";
 
     }
-    /*cout<<"----Training done----\n";
-    cout<<"----Testing----\n";
-    correct = 0.0;
-    total = 0.0;
-    for(int j = 0; j < input_test.size(); j++)
-    {
-        vector<double> op = mlp.run(input_test[j]);
-        int lab = distance(op.begin(), max_element(op.begin(), op.end()));
-        if(lab == (int)label_train[j])
-            correct++;
-        total++;
-    }
-    cout<<"Testing Accuracy = "<<100.0*(correct/total)<<"%\n";*/
     return 0;
 }
